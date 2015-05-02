@@ -4,7 +4,6 @@ $salt = "jj%asd@f&83!";
 $connect = mysqli_connect("mysql3.000webhost.com","a8267023_akurfnd","connect2me","a8267023_akurfnd");
 
 // connecting MySQL Database to php
-$connect=mysqli_connect("mysql15.000webhost.com","a4613629_ashwin","myaz290d","a4613629_post");
 if (mysqli_connect_errno())
 	echo "Failed to connect to MySQL: " . mysqli_connect_error();
 
@@ -45,5 +44,4 @@ else
 	$a = array('result' => "Failure");
 		echo json_encode($a);
 }
-
 ?>
