@@ -36,12 +36,12 @@ if($result)
 	$message.="http://www.askyourfriends.site40.net/confirm.php?passkey=$ccode";// The Activation link
 	$sent_mail = mail($mail_id,$subject,$message,$header); // Sending Email
 	
-	$a = array('result' => "Success");
+	$a = array('result' => "success");
 	echo json_encode($a);
 }
 else
 {
-	$a = array('result' => "Failure");
+	$a = array('result' => "failure");
 		echo json_encode($a);
 }
 ?>
