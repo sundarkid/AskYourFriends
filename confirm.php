@@ -29,8 +29,8 @@ if($result1)
 	$password=$rows['password']; 	
 	$phone=$rows['phone']; 	
 	$friends = array();
-	
-	$query="INSERT  INTO `account`(`name`,`mail_id`,`password`,`place`,`institution`, `phone`, `friends`) VALUES
+	echo $name."<br>";
+	$query="INSERT  INTO `accounts`(`name`,`mail_id`,`password`,`place`,`institution`, `phone`, `friends`) VALUES
 	('$name','$email','$password','$place','$institution', '$phone', '$friends')";
 	$result2=mysqli_query($connect,$query);
 }
@@ -44,10 +44,11 @@ else
 // if successfully moved data from table "temp_user" to table "account" displays message "Your account has been activated" and don't forget to delete confirmation code from table "temp_members_db"
 if($result2)
 {
-	$sql3="DELETE FROM temp_user WHERE confirm_code = '$passkey'";
+	$sql3="DELETE FROM `temp_user` WHERE `ccode` = '$passkey'";
 	$result3=mysqli_query($connect,$sql3);
 	echo "Your account has been activated";
-}else
+}
+else
 {
 	echo "Something went wrong. <br> Please try again later."; 
 }

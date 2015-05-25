@@ -30,7 +30,7 @@ $result = mysqli_query($connect,$query);
 if($result)
 {
 	$subject="Ask Your Friends, Comfirmation mail ";
-	$header="from: Sundareswaran <sundareswarancg@gmail.com>";
+	$header="from: Kidd <sundareswarancg@gmail.com>";
 	$message="Your Comfirmation link \r\n";
 	$message.="Click on this link to activate your account \r\n";
 	$message.="http://www.askyourfriends.site40.net/confirm.php?passkey=$ccode";// The Activation link
