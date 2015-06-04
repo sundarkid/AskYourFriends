@@ -12,24 +12,18 @@ date_default_timezone_set('Asia/Kolkata');
 $dat= date("F j, Y, g:i a"); 
 
 // Passkey that got from link 
-$passkey=$_GET['passkey']; 
+$passkey=$_GET['passkey'];
+$id_no = $_GET['sno'];
 
 // Retrieve data from table where row that match this passkey 
-$sql1="SELECT * FROM `temp_user` WHERE `ccode` ='$passkey'";
+$sql1="SELECT * FROM `password_recovery` WHERE `uid` ='$passkey' and `id_no` = '$id_no'";
 $result1=mysqli_query($connect,$sql1);	
 
 // If successfully queried 
 if($result1)
 {
 	$rows=mysqli_fetch_array($result1);
-	$name=$rows['name'];
-	$email=$rows['mail_id'];
-	$place = $rows['place'];
-	$institution = $rows['institution'];
-	$password=$rows['password']; 	
-	$phone=$rows['phone']; 	
 	$friends = array();
-	echo $name."<br>";
 	$query="INSERT  INTO `accounts`(`name`,`mail_id`,`password`,`place`,`institution`, `phone`, `friends`,`time`) VALUES
 	('$name','$email','$password','$place','$institution', '$phone', '$friends','$dat')";
 	$result2=mysqli_query($connect,$query);
@@ -44,7 +38,7 @@ else
 // if successfully moved data from table "temp_user" to table "account" displays message "Your account has been activated" and don't forget to delete confirmation code from table "temp_members_db"
 if($result2)
 {
-	$sql3="DELETE FROM `temp_user` WHERE `ccode` = '$passkey'";
+	$sql3="DELETE FROM `password_recovery` WHERE `ccode` = '$passkey' and `id_no` = '$id_no'";
 	$result3=mysqli_query($connect,$sql3);
 	echo "Your account has been activated";
 }

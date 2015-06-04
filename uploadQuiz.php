@@ -31,11 +31,13 @@ if($result1)
 		$result3 = mysqli_query($connect,$query_notify_new_info);
 		foreach($arr as $val=>$k)
 		{
-			$query="INSERT  INTO `new_questions`(`user_id`,`grouping_id`,`question`,`optionA`,`optionB`,`optionC`,`optionD`,`answer`) VALUES ('$user_id', '$grouping_id' ,".$k['question']."','".$k['opt1']."','".$k['opt2']."','".$k['opt3']."','".$k['opt4']."','".$k['ans']."')";
+
+			$query="INSERT  INTO `new_questions`(`user_id`,`grouping_id`,`question`,`optionA`,`optionB`,`optionC`,`optionD`,`answer`) VALUES ('$user_id', '$grouping_id' ,'".$k['question']."','".$k['optionA']."','".$k['optionB']."','".$k['optionC']."','".$k['optionD']."','".$k['answer']."')";
 			$result4=mysqli_query($connect,$query);
 		}
 	}
 
+	
 	// Checking for complete success
 	if ($result2 || $result3 || $result4)
 	{

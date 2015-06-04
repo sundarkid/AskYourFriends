@@ -1,6 +1,5 @@
 <?php
 
-	$salt = "jj%asd@f&83!";
 	$connect = mysqli_connect("mysql3.000webhost.com","a8267023_akurfnd","connect2me","a8267023_akurfnd");
 
 	// connecting MySQL Database to php
@@ -11,23 +10,21 @@
 	date_default_timezone_set('Asia/Kolkata');//date stamp
 
 	// Variables and values
-	$dat= date("F j, Y, g:i a");//date & time
-	$name = $_POST['name'];
+	$dat= date("F j, Y, g:i a");//date & time7
 	$mail_id = $_POST['mail_id'];
-	$phone = $_POST['phone'];
-	$place = $_POST['place'];
-	$institution = $_POST['institution'];
-	$password = $_POST['password'];
-	$password = md5($password.$salt);
-	$ccode = md5(uniqid(rand()));
 
 	// Checking for duplicate entry of user
-	$check = "SELECT * FROM `accounts` WHERE `mail_id` = '$mail_id'";
+	$check = "SELECT `user_id` FROM `accounts` WHERE `mail_id` = '$mail'";
 	$resultCheck = mysqli_query($connect,$check);
-	if(mysqli_fetch_array($resultCheck) == NULL)
+	if($resultCheck)
 	{
-		// SQL query for entering into Table
-		$query = "INSERT INTO `temp_user` (`name`,`institution`,`place`,`phone`,`mail_id`,`time`,`ccode`,`password`) VALUES ('$name','$institution','$place','$phone','$mail_id','$dat','$ccode','$password')";
+
+		$ccode = md5(uniqid(rand()));
+		$row = mysqli_fetch_array($resultCheck);
+		$id_no = $row['user_id'];
+		if($id_no != null){
+			// SQL query for entering into Table
+		$query = "INSERT INTO `password_recovery` (`id_no`,`uid`) VALUES ('$id_no','$ccode')";
 
 		$result = mysqli_query($connect,$query);
 
@@ -36,9 +33,10 @@
 		{
 			$subject="Ask Your Friends, Comfirmation mail ";
 			$header="from: Kidd <sundareswarancg@gmail.com>";
-			$message="Your Comfirmation link \r\n";
-			$message.="Click on this link to activate your account \r\n";
-			$message.="http://askyourfriend.in/confirm.php?passkey=$ccode";// The Activation link
+			$message="Reset password \r\n";
+			$message.="Click on the link to change your password. \r\n";
+			$message.="http://askyourfriend.in/passwordConfirm.php?passkey=$ccode&sno=$id_no";// The Activation link
+			$message.="<b>If you did not request for a change of password please ignore this message.</b> \r\n";
 			$sent_mail = mail($mail_id,$subject,$message,$header); // Sending Email
 			
 			$a = array('result' => "success");
@@ -49,11 +47,17 @@
 			$a = array('result' => "failure");
 				echo json_encode($a);
 		}
+		}
+		
 	}
-	else{
-		$a = array('existing' => "User already Registered");
+	else if (!$resultCheck) {
+		$a = array('result' => "failure",'message' => "not found");
+			echo json_encode($a);
+	}else{
+		$a = array('result' => "failure");
 			echo json_encode($a);
 	}
+	
 
 	mysqli_close($connect);
 ?>
