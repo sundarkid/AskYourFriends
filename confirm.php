@@ -27,12 +27,19 @@ if($result1)
 	$place = $rows['place'];
 	$institution = $rows['institution'];
 	$password=$rows['password']; 	
-	$phone=$rows['phone']; 	
-	$friends = array();
-	echo $name."<br>";
-	$query="INSERT  INTO `accounts`(`name`,`mail_id`,`password`,`place`,`institution`, `phone`, `friends`,`time`) VALUES
-	('$name','$email','$password','$place','$institution', '$phone', '$friends','$dat')";
-	$result2=mysqli_query($connect,$query);
+	$phone=$rows['phone'];
+	$friends = json_encode(array());
+
+	if($name == "" || $email == "" || $place == "" || $institution == "" || $password == "" || $phone == ""){
+		echo "Wrong Confirmation code. <br>";
+	}
+	else
+	{
+		echo $name."<br>";
+		$query="INSERT  INTO `accounts`(`name`,`mail_id`,`password`,`place`,`institution`, `phone`, `friends`,`time`) VALUES
+		('$name','$email','$password','$place','$institution', '$phone', '$friends','$dat')";
+		$result2=mysqli_query($connect,$query);
+	}
 }
 
 // if not found passkey, display message "Wrong Confirmation code" 

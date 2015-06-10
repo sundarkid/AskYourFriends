@@ -16,11 +16,13 @@ $reciever_id = $_POST['reciever_id'];
 $request_id = md5(uniqid(rand()));
 
 // Adding information to the table 
-$sql1="INSERT INTO `adding_friedns` (`sender_id`, `reciever_id`, `request_id`, `time`) VALUES ('$sender_id','$reciever_id', 'request_id', '$dat')";
+$sql1="INSERT INTO `adding_friedns` (`sender_id`, `reciever_id`, `request_id`, `time`) VALUES ('$sender_id','$reciever_id', '$request_id', '$dat')";
+$sql2="INSERT INTO `adding_friedns_log` (`sender_id`, `reciever_id`, `request_id`, `time`) VALUES ('$sender_id','$reciever_id', '$request_id', '$dat')";
 $result1=mysqli_query($connect,$sql1);	
+$result2 = mysqli_query($connect,$sql2);
 
 // If successfully queried 
-if($result1)
+if($result1 && $result2)
 {
 	$a = array('result' => "success" );
 	echo json_encode($a);

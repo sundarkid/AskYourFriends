@@ -31,10 +31,10 @@ if($result1)
 	if($result2)
 	{
 		$rows = mysqli_fetch_array($result2);
-		$friends = array();
-		$friends = $rows['friends'];
+		$friends = json_decode($rows['friends']);
 		$friends[] = array($reciever_id);
-		$query3 = "UPDATE `account` SET `friends` = $friends WHERE `user_id` = '$sender_id'";
+		$friends_json = json_encode($friends);
+		$query3 = "UPDATE `account` SET `friends` = '$friends_json' WHERE `user_id` = '$sender_id'";
 		$result3 = mysqli_query($connect,$query3);
 	}
 	// getting the data of reciever
@@ -44,15 +44,21 @@ if($result1)
 	if($result4)
 	{
 		$rows = mysqli_fetch_array($result4);
-		$friends = array();
-		$friends = $rows['friends'];
+		$friends = json_decode($rows['friends']);
 		$friends[] = array($sender_id);
+		$friends_json = json_encode($friends);
 		$query5 = "UPDATE `account` SET `friends` = $friends WHERE `user_id` = '$reciever_id'";
-		$result5 = mysqli_query($connect,$query3);
+		$result5 = mysqli_query($connect,$query5);
+	}
+	
+	if ($result2 && $result3 && $result4 && $result5)
+	{
+		$sql6="DELETE FROM `adding_friedns` WHERE `reciever_id` = '$reciever_id' AND `sender_id` = '$sender_id' AND `request_id` = '$request_id'";
+		$result6 = mysqli_query($connect,$sql3);
 	}
 
 	// Checking for complete success
-	if ($result2 || $result3 || $result4 || $result5)
+	if ($result2 && $result3 && $result4 && $result5 && $result6)
 	{
 		$a = array('result' => "success" );
 		echo json_encode($a);
